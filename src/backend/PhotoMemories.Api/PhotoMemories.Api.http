@@ -1,0 +1,6 @@
+@PhotoMemories.Api_HostAddress = http://localhost:5062
+
+GET {{PhotoMemories.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
