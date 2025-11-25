@@ -60,7 +60,8 @@ public class PhotosController : ControllerBase
     /// Upload a new photo
     /// </summary>
     [HttpPost]
-    public async Task<ActionResult<PhotoDto>> UploadPhoto([FromForm] IFormFile file, [FromForm] PhotoUploadDto metadata)
+    [Consumes("multipart/form-data")]
+    public async Task<ActionResult<PhotoDto>> UploadPhoto(IFormFile file, [FromForm] string? description, [FromForm] string? tags)
     {
         var userId = GetUserId();
         if (userId == null)
@@ -82,13 +83,12 @@ public class PhotosController : ControllerBase
         var photo = new Photo
         {
             Id = Guid.NewGuid(),
-            OriginalFileName = metadata.FileName ?? file.FileName,
+            OriginalFileName = file.FileName,
             BlobUrl = blobUrl,
             FileSize = file.Length,
             ContentType = file.ContentType,
-            DateTaken = metadata.DateTaken,
-            Description = metadata.Description,
-            Tags = metadata.Tags,
+            Description = description,
+            Tags = tags,
             Source = PhotoSource.Upload
         };
 
